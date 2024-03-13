@@ -1,6 +1,9 @@
 package com.vickllny.controller;
 
 import com.vickllny.utils.TileBoundsCalculator;
+import com.wdtinc.mapbox_vector_tile.adapt.jts.JtsAdapter;
+import com.wdtinc.mapbox_vector_tile.adapt.jts.TileGeomResult;
+import com.wdtinc.mapbox_vector_tile.build.MvtLayerParams;
 import no.ecc.vectortile.VectorTileEncoder;
 import org.geotools.api.data.FileDataStore;
 import org.geotools.api.data.FileDataStoreFinder;
@@ -58,7 +61,7 @@ public class TileController {
 
             TileGeomResult tileGeom = JtsAdapter.createTileGeom(
                     jtsGeom, // Your geometry
-                    tileEnvelope,
+                    envelope,
                     geomFactory,
                     layerParams,
                     acceptAllGeomFilter);
