@@ -173,9 +173,44 @@ public class TileController {
             return createGrayStyle();
         } else {
             // For multi-band images, use a default RGB style
-            return createRGBStyle();
+            return createRGBStyle1();
         }
     }
+
+    private static byte[] bufferedImageToByteArray(BufferedImage image) throws Exception {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write(image, "PNG", baos);
+        return baos.toByteArray();
+    }
+
+    private static Style createGrayStyle() {
+
+        ContrastEnhancement ce = styleFactory.contrastEnhancement(filterFactory.literal(1.0), ContrastMethod.NORMALIZE);
+        SelectedChannelType sct = styleFactory.createSelectedChannelType(String.valueOf(1), ce);
+
+        // Use the first band for the gray channel
+        ChannelSelection sel = styleFactory.channelSelection(sct);
+        RasterSymbolizer sym = styleFactory.getDefaultRasterSymbolizer();
+        sym.setChannelSelection(sel);
+
+        return SLD.wrapSymbolizers(sym);
+    }
+
+    private static Style createRGBStyle1() {
+
+        ContrastEnhancement ce = styleFactory.contrastEnhancement(filterFactory.literal(1.0), ContrastMethod.NORMALIZE);
+        SelectedChannelType sctRed = styleFactory.createSelectedChannelType(String.valueOf(1), ce);
+        SelectedChannelType sctGreen = styleFactory.createSelectedChannelType(String.valueOf(2), ce);
+        SelectedChannelType sctBlue = styleFactory.createSelectedChannelType(String.valueOf(3), ce);
+
+        // Use the first three bands for the RGB channels
+        ChannelSelection sel = styleFactory.channelSelection(sctRed, sctGreen, sctBlue);
+        RasterSymbolizer sym = styleFactory.getDefaultRasterSymbolizer();
+        sym.setChannelSelection(sel);
+
+        return SLD.wrapSymbolizers(sym);
+    }
+
 
 
     public static byte[] clip(ReferencedEnvelope envelope, File tiffFile, String outputPNGPath) throws Exception {
