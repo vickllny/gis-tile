@@ -19,6 +19,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <geotools.version>31-SNAPSHOT</geotools.version>
+        <gdal.version>3.9.0</gdal.version>
     </properties>
 
     <dependencies>
@@ -112,6 +113,12 @@
             <groupId>org.locationtech.jts</groupId>
             <artifactId>jts-core</artifactId>
             <version>1.19.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.gdal</groupId>
+            <artifactId>gdal</artifactId>
+            <version>${gdal.version}</version>
         </dependency>
     </dependencies>
 
