@@ -1,5 +1,6 @@
 package com.vickllny;
 
+import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
 import java.io.File;
@@ -8,6 +9,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
 public class AddSLDTest {
     private static final String GEOSERVER_URL = "http://localhost:8080/geoserver";
@@ -49,6 +51,11 @@ public class AddSLDTest {
             System.out.println("SLD file uploaded successfully");
         } else {
             System.out.println("Failed to upload SLD file: " + responseCode);
+            try {
+                System.out.println("Failed to upload SLD file: " + IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         connection.disconnect();
